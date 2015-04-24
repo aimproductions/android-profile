@@ -398,6 +398,11 @@ public class SoomlaTwitter implements ISocialProvider {
             return false;
         }
     }
+	
+    @Override
+    public String getAccessToken(Activity activity) {
+        return null; // TODO: Implement
+    }
 
     /**
      * {@inheritDoc}

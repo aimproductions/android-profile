@@ -54,4 +54,11 @@ public interface IAuthProvider extends IProvider {
      * @return true if the user is logged-in with the authentication provider, false otherwise
      */
     boolean isLoggedIn(Activity activity);
+
+    /**
+     * Returns the access token from the authentication provider if logged-in.
+     * @param activity the parent activity
+     * @return the retrieved access token or null when unable to retrieve
+     */
+    String getAccessToken(Activity activity);
 }

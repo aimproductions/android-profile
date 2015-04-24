@@ -38,6 +38,7 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.PlusShare;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.soomla.SoomlaUtils;
 import com.soomla.profile.auth.AuthCallbacks;
 import com.soomla.profile.domain.UserProfile;
@@ -297,6 +298,19 @@ public class SoomlaGooglePlus implements ISocialProvider{
     @Override
     public boolean isLoggedIn(Activity activity) {
         return (GooglePlusAPIClient != null && GooglePlusAPIClient.isConnected());
+    }
+	
+    @Override
+    public String getAccessToken(Activity activity) {
+        if (!isLoggedIn(activity)){
+			return null;
+		}
+
+		try {
+			return GoogleAuthUtil.getToken(activity.getApplicationContext(), Plus.AccountApi.getAccountName(GooglePlusAPIClient), "oauth2:profile https://www.googleapis.com/auth/plus.login");
+		} catch (Exception e) {
+			return null;
+		}
     }
 
     @Override

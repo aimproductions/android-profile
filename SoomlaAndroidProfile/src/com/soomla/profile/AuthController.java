@@ -183,5 +183,18 @@ public class AuthController<T extends IAuthProvider> extends ProviderLoader<T> {
         return authProvider.isLoggedIn(activity);
     }
 
+    /**
+     * Get the active access token from the given provider
+     *
+     * @param activity The parent activity
+     * @param provider The provider to get the token from
+     * @return a String with the token on success; null if unavailable.
+     * @throws ProviderNotFoundException if the given provider is not loaded
+     */
+    public String getAccessToken(final Activity activity, IProvider.Provider provider) throws ProviderNotFoundException {
+        final IAuthProvider authProvider = getProvider(provider);
+        return authProvider.getAccessToken(activity);
+    }
+
     private static final String TAG = "SOOMLA AuthController";
 }

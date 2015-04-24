@@ -500,7 +500,7 @@ public class SoomlaFacebook implements ISocialProvider {
                     .setName(message)
                     .build();
 
-            SimpleFacebook.getInstance().publish(photo, new OnPublishListener() {
+            SimpleFacebook.getInstance().publish(photo, "me", new OnPublishListener() {
 
                 @Override
                 public void onComplete(String response) {
@@ -683,6 +683,41 @@ public class SoomlaFacebook implements ISocialProvider {
         } else {
             return SimpleFacebook.getInstance().isLogin();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getAccessToken(final Activity activity) {
+		if (!isLoggedIn(activity)) {
+			return null;
+		}
+
+		java.lang.reflect.Method method1;
+		Object session = null;
+		try {
+			method1 = SimpleFacebook.getInstance().getClass().getMethod("getSession");
+			
+			session = method1.invoke(SimpleFacebook.getInstance());
+			method1 = session.getClass().getMethod("getAccessToken");
+
+			return (String)method1.invoke(session);
+
+
+		} catch (Exception e) {
+			return null;
+		}
+
+		//return null;
+		/*
+        if (SimpleFacebook.getInstance() == null) {
+            // SimpleFacebook was not initialized (should happen in login)
+            WeakRefParentActivity = new WeakReference<Activity>(activity);
+            return SimpleFacebook.getInstance(activity).getSession() != null ? SimpleFacebook.getInstance().getSession().getAccessToken() : null;
+        } else {
+            return SimpleFacebook.getInstance().getSession() != null ? SimpleFacebook.getInstance().getSession().getAccessToken() : null;
+        }*/
     }
 
     /**

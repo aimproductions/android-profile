@@ -137,6 +137,23 @@ public class SoomlaProfile {
     }
 
     /**
+     * Get the active access token from the given provider
+     *
+     * @param activity The parent activity
+     * @param provider The provider to use
+     * @return a String containing the access token or null if unavailable.
+     * @throws ProviderNotFoundException if the supplied provider is not
+     *                                   supported by the framework
+     */
+    public String getAccessToken(Activity activity, final IProvider.Provider provider) throws ProviderNotFoundException {
+        try {
+            return mAuthController.getAccessToken(activity, provider);
+        } catch (ProviderNotFoundException e) {
+            return mSocialController.getAccessToken(activity, provider);
+        }
+    }
+
+    /**
      * Logout of the given provider
      *
      * @param provider The provider to use

@@ -399,9 +399,35 @@ public class SoomlaTwitter implements ISocialProvider {
         }
     }
 	
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getAccessToken(Activity activity) {
-        return null; // TODO: Implement
+    public String getAccessToken(final Activity activity) {
+        SoomlaUtils.LogDebug(TAG, "getAccessToken");
+
+        try {
+			if (!isInitialized) {
+				return null;
+			}
+
+			AccessToken accessToken = twitter.getOAuthAccessToken();
+
+			if (accessToken == null){
+				return null;
+			}
+
+			String token = accessToken.getToken();
+			String tokenSecret = accessToken.getTokenSecret();
+
+			if (token == null || tokenSecret == null){
+				return null;
+			}
+
+			return "{\"token\": \"" + token.replace("\"", "\\\"") + "\", \"token_secret\": \"" + tokenSecret.replace("\"", "\\\"") + "\"}";
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
